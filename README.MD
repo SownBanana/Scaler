@@ -1,0 +1,1 @@
+- giải nén data và chạy data_process.py trong Data/
