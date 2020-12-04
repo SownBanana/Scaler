@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROUND = 120
-CUT = 3*ROUND - 1
+CUT = ROUND - 1
 path = '/home/sownbanana/PycharmProjects/Scaler/Data/task_events/task_events_cpu/part-{}-of-00500.csv'
 df = pd.read_csv(path.format(str(0).zfill(5)))
-for i in range(1, 3):
+for i in range(1, 1):
     df2 = pd.read_csv(path.format(str(i).zfill(5)))
     df = pd.concat([df, df2])
 # print(df)
@@ -52,7 +52,7 @@ ax.set_xlabel('time')
 ax.set_ylabel('arrival_rate')
 plt.legend()
 
-for i in range(3, 4):
+for i in range(1, 2):
     df2 = pd.read_csv(path.format(str(i).zfill(5)))
     df = pd.concat([df, df2])
 df.index = pd.to_datetime(df['time'])
