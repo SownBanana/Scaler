@@ -72,77 +72,11 @@ int Endian = NO_ENDIAN;
 /**************************************************************************/
 /* DEFINITIONS                                                            */
 /**************************************************************************/
-char ProtocolNames[NUM_OF_PROTOCOLS][20] = {"HTTP/0.9",
-                                            "HTTP/1.0",
-                                            "HTTP/1.1",
-                                            "HTTP/X.X"};
 
-char MethodNames[NUM_OF_METHODS][20] = {"GET",
-                                        "HEAD",
-                                        "POST",
-                                        "PUT",
-                                        "DELETE",
-                                        "TRACE",
-                                        "OPTIONS",
-                                        "CONNECT",
-                                        "OTHER"};
-
-char CodeNames[NUM_OF_CODES][5] = {"100",
-                                   "101",
-                                   "200",
-                                   "201",
-                                   "202",
-                                   "203",
-                                   "204",
-                                   "205",
-                                   "206",
-                                   "300",
-                                   "301",
-                                   "302",
-                                   "303",
-                                   "304",
-                                   "305",
-                                   "400",
-                                   "401",
-                                   "402",
-                                   "403",
-                                   "404",
-                                   "405",
-                                   "406",
-                                   "407",
-                                   "408",
-                                   "409",
-                                   "410",
-                                   "411",
-                                   "412",
-                                   "413",
-                                   "414",
-                                   "415",
-                                   "500",
-                                   "501",
-                                   "502",
-                                   "503",
-                                   "504",
-                                   "505",
-                                   "-"};
-
-char Month[12][5] = {"Jan",
-                     "Feb",
-                     "Mar",
-                     "Apr",
-                     "May",
-                     "Jun",
-                     "Jul",
-                     "Aug",
-                     "Sep",
-                     "Oct",
-                     "Nov",
-                     "Dec"};
-
-const unsigned int INTERVAL = 60;
-int32_t nextInterval = 0;
-uint8_t requestCount = 0;
-double totalBytes = 0.0;
+const int INTERVAL = 60;
+uint32_t nextInterval = 0;
+uint32_t requestCount = 0;
+long totalBytes = 0;
 
 /**************************************************************************/
 /* READ LOG                                                               */
@@ -155,7 +89,6 @@ void ReadLog()
   time_t ts;
   struct tm *time_info;
   char date[1024], day[10], hour[10], month[10], min[10];
-  int year;
 
   /* status indicator */
   fprintf(stderr, "Reading Access Log\n");
@@ -229,8 +162,6 @@ void ReadLog()
       else
         sprintf(hour, "%d", time_info->tm_hour);
 
-      year = 1900 + time_info->tm_year;
-
       if (time_info->tm_mon < 9)
         sprintf(month, "0%d", (time_info->tm_mon + 1));
       else
@@ -245,7 +176,8 @@ void ReadLog()
               day, month, hour, min);
 
       /* print info in Common Log Format */
-      fprintf(stdout, "%u,%s,%u,%.0f\n", R->timestamp, date, requestCount, totalBytes);
+      fprintf(stdout, "%u,%s,%u,%d\n", R->timestamp, date, requestCount, totalBytes);
+
       nextInterval += INTERVAL;
       requestCount = 0;
       totalBytes = 0;
@@ -393,7 +325,7 @@ int main(int argc, char **argv)
 
   ReadLog();
 
-  PrintResults();
+  // PrintResults();
 
   Terminate();
 

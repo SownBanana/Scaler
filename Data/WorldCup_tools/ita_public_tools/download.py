@@ -41,6 +41,7 @@ def to_csv(start_day, end_day):
 def draw(start_day, end_day, field, style='line'):
     path = './data/wc_day{}_{}.csv'
     end_day = end_day + 1
+    print(start_day)
     print(end_day)
     cols = ['time', 'datetime', 'request', 'bytes']
     df = pd.DataFrame()
@@ -53,6 +54,7 @@ def draw(start_day, end_day, field, style='line'):
             except FileNotFoundError:
                 break
     # plot line
+    print(df)
     if style == 'line':
         df.plot(x='datetime', y=field)
         plt.show()
@@ -64,9 +66,9 @@ def draw(start_day, end_day, field, style='line'):
 if __name__ == "__main__":
     # WC98 - day46-day78
 
-    # download_data(1, 92)
+    download_data(1, 92)
 
-    # to_csv(46, 72)
+    to_csv(1, 92)
+    draw(1, 92, field='request')
+    draw(1, 92, field='cpu')
 
-    draw(46, 72, field='bytes')
-    # draw(1, 92, field='request')
