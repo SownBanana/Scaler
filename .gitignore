@@ -1,0 +1,10 @@
+Scaler.zip
+Scaler_Colab/
+*.gz
+Data/*.zip
+Data/task_events/task_events/*.csv
+docs/
+Data/*.csv
+Data/task_usage/*.zip
+Data/WorldCup_tools/ita_public_tools/ouput
+
