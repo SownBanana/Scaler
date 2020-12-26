@@ -1,0 +1,3 @@
+- make recreate
+- chmod -x create_data.sh
+- run download.py
