@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 save_path = '/Data/vmfc/VMforcast.csv'
-path = '../Data/task_events/task_events_cpu/part-{}-of-00500.csv'
 # ngưỡng sử dụng cpu mỗi máy
 upper_cpu = 0.7
 lower_cpu = 0.2
@@ -19,7 +18,7 @@ MINUTE = 60
 HOUR = 60 * MINUTE
 
 # random số máy đầu tiên
-VM = 10
+VM = rd.randint(1, 10)
 copy_VM = VM
 
 
@@ -39,7 +38,7 @@ def get_scale(cpu_need):
             fvm -= 1
         # nếu cpu sử dụng nằm trong khoản cho phép, return số máy ảo cần tăng
         else:
-            # print(cpu_per_vm)
+            print(cpu_per_vm)
             return fvm - VM
 
 
@@ -68,7 +67,7 @@ if __name__ == "__main__":
         elif forecastVM < 0:
             print("scale down:{}".format(-forecastVM))
 
-        # scale máy ảo
+        #scale máy ảo
         VM = VM + forecastVM
 
         print("================")
@@ -80,26 +79,10 @@ if __name__ == "__main__":
         cur_time += MINUTE
 
     df = pd.DataFrame(data)
-    # df.to_csv(save_path)
+    df.to_csv(save_path)
     df.index = pd.to_datetime(df['time'])
     df['vm_forecast'].plot(label='vm')
     plt.show()
-
-
-    VM = copy_VM
-
-    d = pd.read_csv(path.format(str(2).zfill(5)))
-    print(d)
-    d.index = pd.to_datetime(d['time'])
-    data = [0]
-    for i in range(1, len(d)):
-        data.append(get_scale(d[i:i + 1]['cpu'].values[0]*d[i:i + 1]['arrival_rate'].values[0]))
-        print(data[i])
-
-    d['vm_need'] = data
-    ax = d['vm_need'].iloc[:30].plot(label="VM need")
-    plt.show()
-
 
     # df2 = pd.read_csv('/home/sownbanana/PycharmProjects/Scaler/Data/task_events/task_events_cpu/part-00001-of-00500.csv')
     # up = {'time':[], 'upper':[]}
