@@ -3,15 +3,15 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
 ROUND = 120
-CUT = 2*ROUND - 1
-path = '/home/sownbanana/PycharmProjects/Scaler/Data/task_events/task_events_cpu/part-{}-of-00500.csv'
-df = pd.read_csv(path.format(str(0).zfill(5)))
-for i in range(1, 2):
+CUT = ROUND
+path = '../Data/task_events/task_events_cpu/part-{}-of-00500.csv'
+df = pd.read_csv(path.format(str(2).zfill(5)))
+for i in range(3, 3):
     df2 = pd.read_csv(path.format(str(i).zfill(5)))
     df = pd.concat([df, df2])
 # print(df)
 df.index = pd.to_datetime(df['time'])
-ax = df['cpu'].iloc[CUT:].plot(label="202.011112")
+ax = df['cpu'].iloc[CUT:].plot()
 # plt.show()
 
 # fig = plt.figure(figsize=(12,8))
@@ -31,23 +31,24 @@ model = sm.tsa.statespace.SARIMAX(endog=df['cpu'], order=(2, 0, 2), seasonal_ord
 results = model.fit()
 print(results.summary())
 
-df['fit'] = results.fittedvalues
-df['fit'].iloc[CUT:].plot(label='fit')
+# df['fit'] = results.fittedvalues
+# df['fit'].iloc[CUT:].plot(label='fit')
 
 forecast = results.get_forecast(steps=ROUND)
-f_ci = forecast.conf_int()
+# f_ci = forecast.conf_int()
 
-forecast.predicted_mean.plot(ax=ax, label='forecast')
-ax.fill_between(f_ci.index,
-                f_ci.iloc[:, 0],
-                f_ci.iloc[:, 1], color='g', alpha=.5)
+
+# ax.fill_between(f_ci.index,
+#                 f_ci.iloc[:, 0],
+#                 f_ci.iloc[:, 1], color='g', alpha=.5)
 ax.set_xlabel('time')
 ax.set_ylabel('cpu')
-plt.legend()
 
-for i in range(2, 3):
+for i in range(3, 4):
     df2 = pd.read_csv(path.format(str(i).zfill(5)))
     df = pd.concat([df, df2])
 df.index = pd.to_datetime(df['time'])
-df['cpu'].iloc[CUT:].plot(label="real")
+df['cpu'].iloc[(CUT-1):].plot(label="real")
+forecast.predicted_mean.plot(ax=ax, label='forecast', color='g')
+plt.legend()
 plt.show()

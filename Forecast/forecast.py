@@ -2,7 +2,7 @@ import pandas as pd
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
-path = '/home/sownbanana/PycharmProjects/Scaler/Data/task_events/task_events_cpu/part-{}-of-00500.csv'
+path = '../Data/task_events/task_events_cpu/part-{}-of-00500.csv'
 ROUND = 120
 CUT = ROUND - 1
 

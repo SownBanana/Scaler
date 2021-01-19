@@ -47,7 +47,7 @@ def draw(start_day, end_day, field, style='line'):
     df = pd.DataFrame()
 
     for day in range(start_day, end_day):
-        for part in range(1, 2):
+        for part in range(1, 10):
             try:
                 df2 = pd.read_csv(path.format(day, part), names=cols, header=None)
                 df = pd.concat([df, df2])
@@ -66,9 +66,9 @@ def draw(start_day, end_day, field, style='line'):
 if __name__ == "__main__":
     # WC98 - day46-day78
 
-    download_data(1, 92)
-
-    to_csv(1, 92)
-    draw(1, 92, field='request')
-    draw(1, 92, field='cpu')
+    # download_data(1, 92)
+    #
+    # to_csv(1, 92)
+    draw(46, 78, field='request')
+    # draw(46, 78, field='bytes')
 

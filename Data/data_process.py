@@ -8,12 +8,12 @@ HOUR = 60 * MINUTE
 # lấy mẫu mỗi 1 phút
 INTERVAL = MINUTE
 
-path = '/home/sownbanana/PycharmProjects/Scaler/Data/task_events/task_events/part-{}-of-00500.csv.gz'
+path = './task_events/task_events/part-{}-of-00500.csv.gz'
 save_path = '/home/sownbanana/PycharmProjects/Scaler/Data/task_events/task_events_cpu/part-{}-of-00500.csv'
 new_data = {'time': [], 'cpu': [], 'arrival_rate': []}
 time = INTERVAL
 eval_count = 0
-for no in range(0, 10):
+for no in range(0, 20):
     df = pd.read_csv(path.format(str(no).zfill(5)), header=None)
     df.index = pd.to_timedelta(df[0], 'us')
     cpu = 0

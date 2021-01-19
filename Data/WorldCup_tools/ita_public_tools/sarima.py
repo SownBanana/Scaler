@@ -5,15 +5,21 @@ import numpy as np
 
 ROUND = 120
 CUT = ROUND
-path = '../Data/task_events/task_events_cpu/part-{}-of-00500.csv'
-df = pd.read_csv(path.format(str(0).zfill(5)))
-for i in range(1, 1):
-    df2 = pd.read_csv(path.format(str(i).zfill(5)))
-    df = pd.concat([df, df2])
+path = './data/wc_day{}_{}.csv'
+cols = ['time', 'datetime', 'request', 'bytes']
+df = pd.DataFrame()
+
+for day in range(46, 50):
+    for part in range(1, 10):
+        try:
+            df2 = pd.read_csv(path.format(day, part), names=cols, header=None)
+            df = pd.concat([df, df2])
+        except FileNotFoundError:
+            break
 # print(df)
 df.index = pd.to_datetime(df['time'])
 
-ax = df['cpu'].iloc[:CUT].plot(label="fit")
+ax = df['request'].iloc[:CUT].plot(label="fit")
 # plt.show()
 
 # fig = plt.figure(figsize=(12,8))
@@ -28,7 +34,7 @@ ax = df['cpu'].iloc[:CUT].plot(label="fit")
 # (1,0,2)(0,1,2,12)
 # (2,0,2)(0,1,11,12)v
 # (11,0,11)(11,1,11,12)
-model = sm.tsa.statespace.SARIMAX(endog=df['cpu'], order=(2, 0, 2), seasonal_order=(0, 1, 11, 12), trend='c',
+model = sm.tsa.statespace.SARIMAX(endog=df['request'], order=(2, 0, 2), seasonal_order=(0, 1, 11, 12), trend='c',
                                   enforce_invertibility=False)
 results = model.fit()
 print(results.summary())
@@ -51,10 +57,13 @@ forecast = results.get_forecast(steps=ROUND)
 ax.set_xlabel('time')
 ax.set_ylabel('cpu')
 
-for i in range(1, 2):
-    df2 = pd.read_csv(path.format(str(i).zfill(5)))
-    df = pd.concat([df, df2])
-df.index = pd.to_datetime(df['time'])
+for day in range(50, 60):
+    for part in range(1, 10):
+        try:
+            df2 = pd.read_csv(path.format(day, part), names=cols, header=None)
+            df = pd.concat([df, df2])
+        except FileNotFoundError:
+            break
 df['cpu'].iloc[(CUT-1):].plot(label="real")
 forecast.predicted_mean.plot(ax=ax, label='forecast', color='g')
 
