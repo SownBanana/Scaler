@@ -5,11 +5,10 @@ Data/*.zip
 Data/task_events/task_events/*.csv
 docs/
 Data/*.csv
-Data/task_usage/*.zip
-Data/WorldCup_tools/ita_public_tools/ouput
+# Data/task_usage/*.zip
+# Data/WorldCup_tools/ita_public_tools/ouput
 
 Data/task_events/choose_model_data/*.csv
-.gitignore
 Data/task_events/task_events_cpu/*.csv
 Data/Wiki/*.csv
 Data/task_events/task_events_cpu/*csv
